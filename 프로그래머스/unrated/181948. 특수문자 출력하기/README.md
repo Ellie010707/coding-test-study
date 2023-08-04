@@ -1,10 +1,10 @@
 # [unrated] 특수문자 출력하기 - 181948 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181948?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/181948?language=java) 
 
 ### 성능 요약
 
-메모리: 7.2 MB, 시간: 11.07 ms
+메모리: 64.4 MB, 시간: 130.55 ms
 
 ### 구분
 
