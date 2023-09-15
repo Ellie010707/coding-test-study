@@ -2,8 +2,7 @@ class Solution {
     public int solution(int n, int k) {
         int answer = 0;
         
-        String decimalToK = Integer.toString(n, k); //k진법으로 변환
-        String[] kNums = decimalToK.split("0");
+        String[] kNums = Integer.toString(n, k).split("0"); //k진법으로 변환
         
         Boolean isPrime = true;
         for (String kNum: kNums) {
