@@ -11,7 +11,7 @@ class Solution {
             long decimalNum = Long.parseLong(kNum);
             
             isPrime = true;
-            for (int i = 2; i <= (int)Math.sqrt(decimalNum); i++){
+            for (int i = 2; i <= Math.sqrt(decimalNum); i++){
                 if (decimalNum % i == 0){
                     isPrime = false;
                 } 
