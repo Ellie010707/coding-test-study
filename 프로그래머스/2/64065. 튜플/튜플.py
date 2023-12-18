@@ -1,11 +1,9 @@
 def solution(s):
-    answer = []
-    s = s[2:-2].split("},{")
+    s = [ x.split(",") for x in s[2:-2].split("},{")]
     s.sort(key=len)
     
-    for nums in s:
-        num = nums.split(",")
-        for n in num:
-            if int(n) not in answer:
-                answer.append(int(n))
+    ss = [int(y) for x in s for y in x]
+
+    answer = list(dict.fromkeys(ss))
+        
     return answer
