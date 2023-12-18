@@ -32,7 +32,7 @@ def makeOpposite(s):
 
 def solution(p):
 
-    if p == "":
+    if isRight(p):
         return p
     
     u, v = divide(p)
@@ -47,4 +47,3 @@ def solution(p):
 
     return answer
 
-    
