@@ -43,7 +43,7 @@ def bfs(x, y, dir, now_time):
             ny = tmp_y + d[dir][2][1]
 
         if nx < 0 or nx >= N or ny < 0 or ny >= N or (nx, ny) in snake: #만약 벽이나 자기자신의 몸과 부딪히면 게임이 끝난다.
-            return now_time
+            return now_time + 1
         
         queue.append((nx, ny))
         snake.append((nx, ny))
@@ -55,6 +55,6 @@ def bfs(x, y, dir, now_time):
         else:   #만약 이동한 칸에 사과가 없다면, 몸길이를 줄여서 꼬리가 위치한 칸을 비워준다. 즉, 몸길이는 변하지 않는다.
             snake.popleft()
 
-    return now_time
+    return now_time + 1
 
-print(bfs(0, 0, 2, 0) + 1)
+print(bfs(0, 0, 2, 0))
