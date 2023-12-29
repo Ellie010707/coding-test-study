@@ -1,47 +1,53 @@
-import sys
 from collections import deque
-input = sys.stdin.readline
 
-n, m = map(int, input().split())
+# 로봇 청소기가 바라보는 방향 d
+# 0인 경우 북쪽 
+# 1인 경우 동쪽 
+# 2인 경우 남쪽 
+# 3인 경우 서쪽
+
+N, M = map(int, input().split())
 r, c, d = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(n)]
-visited = [[0 for _ in range(m)] for _ in range(n)]
-cnt = 0
+maps = [ [ int(x) for x in input().split()] for _ in range(N) ]
 
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
+dv = [(-1, 0), (0,1), (1, 0), (0,-1)] # 방향 벡터
 
-def bfs(i, j, d):
-    global cnt
+def bfs(x, y, d):
+
+    cnt = 1
+    maps[x][y] = 2
+
     queue = deque()
-    queue.append((i, j)) # 로봇 위치
-    visited[i][j] = 1
-    cnt += 1
+    queue.append((x, y))
 
     while queue:
         x, y = queue.popleft()
-        flag = 0
+        is_in = False
 
-        for _ in range(4): # 반시계 방향으로 돌려감
-            d = (d + 3) % 4
-            nx = x + dx[d]
-            ny = y + dy[d]
+        for _ in range(4): 
+            d = (d + 3) % 4     # 반시계 방향으로 네 방향 검사
+            nx = x + dv[d][0]
+            ny = y + dv[d][1]
 
-            if 0 <= nx < n and 0 <= ny < m and not graph[nx][ny]: 
-                if not visited[nx][ny]:
-                    visited[nx][ny] = 1  
-                    queue.append((nx, ny))
-                    cnt += 1
-                    flag = 1 # 반시계 방향으로 돌아갔을 때 빈칸이 있다는 것을 의미
-                    break
-
-
-        if flag == 0: # 청소할 곳이 없다면 후진
-            if graph[x - dx[d]][y - dy[d]] != 1:
-                queue.append((x - dx[d], y - dy[d]))
-
-            else:
-                print(cnt)
+            if 0 <= nx < N and 0 <= ny < M and maps[nx][ny] == 0:
+                maps[nx][ny] = 2
+                queue.append((nx,ny))
+                cnt += 1
+                is_in = True
                 break
 
-bfs(r, c, d)
+
+        if is_in == False: # 현재 칸의 주변 4칸 중 청소되지 않은 빈 칸이 없는 경우,
+            # 후진
+            tmp_x = x - dv[d][0]
+            tmp_y = y - dv[d][1]
+            
+            # 벽이나 범위 내가 아니면 종료
+            if tmp_x < 0 or tmp_x >= N or tmp_y < 0 or tmp_y >= M or maps[tmp_x][tmp_y] == 1:
+                return cnt
+            
+            # 후진 가능하면 반복
+            queue.append((tmp_x, tmp_y))
+    return cnt
+
+print(bfs(r, c, d))
