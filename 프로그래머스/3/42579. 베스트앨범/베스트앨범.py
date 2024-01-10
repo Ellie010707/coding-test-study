@@ -1,4 +1,4 @@
-# 7: 46
+# 7:46 ~ 8:36 (50")
 from collections import defaultdict
 
 def solution(genres, plays):
