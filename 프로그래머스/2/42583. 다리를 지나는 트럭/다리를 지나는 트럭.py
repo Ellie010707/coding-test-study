@@ -21,9 +21,3 @@ def solution(bridge_length, weight, truck_weights):
     time += bridge_length
     
     return time
-
-        
-        
-        
-        
-    return time
