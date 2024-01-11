@@ -11,13 +11,7 @@ def solution(priorities, location):
     while queue:
         xp, xi = queue.popleft()
         
-        is_in = False
-        for p, i in queue:
-            if p > xp:
-                is_in = True
-                break
-                
-        if is_in:
+        if any(xp < p for p, i in queue):
             queue.append((xp, xi))
             continue
         
