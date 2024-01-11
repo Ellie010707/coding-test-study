@@ -1,4 +1,3 @@
-# 3:38
 def solution(s):    
     opens, closes = 0, 0
     
