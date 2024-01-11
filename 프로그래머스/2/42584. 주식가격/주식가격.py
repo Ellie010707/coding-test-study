@@ -1,4 +1,3 @@
-# 4:59
 from collections import deque
 def solution(prices):
     queue = deque(prices)
