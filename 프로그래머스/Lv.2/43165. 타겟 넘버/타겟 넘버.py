@@ -8,7 +8,7 @@ def solution(numbers, target):
             if now == target:
                 answer += 1
                 return
-            else: return
+            return
         
         tmp_numbers = copy.deepcopy(numbers)
         tmp = tmp_numbers.pop(0)
