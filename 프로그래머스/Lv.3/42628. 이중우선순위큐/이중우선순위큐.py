@@ -1,5 +1,4 @@
-#3:18
-from heapq import heapify, heappush, heappop
+from heapq import heappush, heappop
 
 def solution(operations):
     queue = []
@@ -9,6 +8,7 @@ def solution(operations):
             heappush(queue, int(operation.split()[1]))
         elif len(queue) == 0: continue
         elif operation == "D 1": # 최댓값 삭제
+            queue.sort()
             queue.pop()
         elif operation == "D -1": # 최솟값 삭제
             heappop(queue)
