@@ -20,7 +20,7 @@ def solution(jobs):
             continue
         now += 1
         
-    return int(answer // len(jobs))
+    return answer // len(jobs)
             
             
             
