@@ -5,22 +5,14 @@ def solution(operations):
     queue = []
     
     for operation in operations:
-        op, num = operation.split()
-        
-        if op == "I":
-            #answer.append(int(num))
-            heappush(queue, int(num))
+        if operation[0] == "I":
+            heappush(queue, int(operation.split()[1]))
         elif len(queue) == 0: continue
-        elif op == "D" and num == "-1": # 최솟값 삭제
+        elif operation == "D 1": # 최댓값 삭제
+            queue.pop()
+        elif operation == "D -1": # 최솟값 삭제
             heappop(queue)
             
-        elif op == "D" and num == "1": # 최댓값 삭제
-            queue = [-q for q in queue]
-            heapify(queue)
-            heappop(queue)
-            queue = [-q for q in queue]
-            heapify(queue)
-    
     if len(queue) == 0 : return [0,0]
     
     return [max(queue), min(queue)]
