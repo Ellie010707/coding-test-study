@@ -1,4 +1,3 @@
-#10:26
 def solution(numbers):
     
     def helper(prefix, lefts):
