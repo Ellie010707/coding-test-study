@@ -1,26 +1,5 @@
 from collections import deque
 
-def findPieces(i, j, op, target):
-    global xSize, ySize, visited
-    dv = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-    queue = deque()
-    queue.append((i, j))
-    tmp_piece = [(i,j), ]
-    while queue:
-        x, y = queue.popleft()
-
-        for dx, dy in dv:
-            nx = x + dx
-            ny = y + dy
-
-            if nx < 0 or nx >= xSize or ny < 0 or ny >= ySize or visited[nx][ny] == 1 or target[nx][ny] != op:
-                continue
-            tmp_piece.append((nx, ny))
-            queue.append((nx, ny))
-            visited[nx][ny] = 1
-    
-    return tmp_piece
-
 def makePiece(piece):
     xs, ys = zip(*piece)
     xSize = max(xs) - min(xs) + 1
@@ -94,17 +73,6 @@ def solution(game_board, table):
                     answer += getCount(puzzle)
                     puzzles.remove(puzzle_origin)
                     filled = True
-                    break
-    # answer = 0
-    # visited = [0 for _ in range(len(table_pieces))]
-    # for g in game_pieces:
-    #     for idx, t in enumerate(table_pieces):
-    #         if visited[idx] == 0 and g in t:
-    #             answer += getCount(g)
-    #             visited[idx] = 1
-    #             break
-                    
+                    break                    
 
     return answer
-
-print(solution([[1,1,0,0,1,0],[0,0,1,0,1,0],[0,1,1,0,0,1],[1,1,0,1,1,1],[1,0,0,0,1,0],[0,1,1,1,0,0]], [[1,0,0,1,1,0],[1,0,1,0,1,0],[0,1,1,0,1,1],[0,0,1,0,0,0],[1,1,0,1,1,0],[0,1,0,0,0,0]]))
