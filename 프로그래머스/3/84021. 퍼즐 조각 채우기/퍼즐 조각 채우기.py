@@ -1,15 +1,49 @@
-# !/usr/bin/env python
-# -*- coding: utf-8 -*-
-# programmers 퍼즐조각채우기
-
 from collections import deque
 
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
+def findPieces(i, j, op, target):
+    global xSize, ySize, visited
+    dv = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    queue = deque()
+    queue.append((i, j))
+    tmp_piece = [(i,j), ]
+    while queue:
+        x, y = queue.popleft()
 
+        for dx, dy in dv:
+            nx = x + dx
+            ny = y + dy
 
-# board와 puzzle의 각각 빈공간과 블럭을 찾는 함수 (BFS)
+            if nx < 0 or nx >= xSize or ny < 0 or ny >= ySize or visited[nx][ny] == 1 or target[nx][ny] != op:
+                continue
+            tmp_piece.append((nx, ny))
+            queue.append((nx, ny))
+            visited[nx][ny] = 1
+    
+    return tmp_piece
+
+def makePiece(piece):
+    xs, ys = zip(*piece)
+    xSize = max(xs) - min(xs) + 1
+    ySize = max(ys) - min(ys) + 1
+    xs = [x - min(xs) for x in xs]
+    ys = [y - min(ys) for y in ys]
+    tmp_piece = [[0 for _ in range(ySize)] for _ in range(xSize)]
+    for x, y in zip(xs, ys):
+        tmp_piece[x][y] = 1
+    return tmp_piece  
+
+def rotate(array_2d):
+    list_of_tuples = zip(*array_2d[::-1])
+    return [list(e) for e in list_of_tuples]
+
+def getCount(piece):
+    count = 0
+    for p in piece:
+        count += p.count(1)
+    return count
+
 def find_block(board, f):
+    dv = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     empty_board_list = []
     visited = [[False] * len(board[0]) for _ in range(len(board))]
 
@@ -23,8 +57,8 @@ def find_block(board, f):
 
                 while queue:
                     x, y = queue.popleft()
-                    for _ in range(4):
-                        nx, ny = x + dx[_], y + dy[_]
+                    for dx, dy in dv:
+                        nx, ny = x + dx, y + dy
                         if nx < 0 or nx > len(board) - 1 or ny < 0 or ny > len(board) - 1:
                             continue
                         elif board[nx][ny] == f:
@@ -36,52 +70,41 @@ def find_block(board, f):
 
     return empty_board_list
 
-
-# block의 인덱스들로 table을 만드는 함수
-def make_table(block):
-    x, y = zip(*block)
-    c, r = max(x) - min(x) + 1, max(y) - min(y) + 1
-    table = [[0] * r for _ in range(c)]
-
-    for i, j in block:
-        i, j = i - min(x), j - min(y)
-        table[i][j] = 1
-    return table
-
-
-# 오른쪽으로 90도 회전하는 함수
-def rotate(puzzle):
-    rotate = [[0] * len(puzzle) for _ in range(len(puzzle[0]))]
-    count = 0
-    for i in range(len(puzzle)):
-        for j in range(len(puzzle[i])):
-            if puzzle[i][j] == 1:
-                count += 1
-            rotate[j][len(puzzle) - 1 - i] = puzzle[i][j]
-    return rotate, count
-
-
 def solution(game_board, table):
+    global xSize, ySize, visited
+    xSize, ySize = len(table), len(table[0])
+
     answer = 0
     empty_blocks = find_block(game_board, 0)
     puzzles = find_block(table, 1)
 
     for empty in empty_blocks:
         filled = False
-        table = make_table(empty)
+        table = makePiece(empty)
 
         for puzzle_origin in puzzles:
             if filled == True:
                 break
 
-            puzzle = make_table(puzzle_origin)
-            for i in range(4):
-                puzzle, count = rotate(puzzle)
+            puzzle = makePiece(puzzle_origin)
+            for _ in range(4):
+                puzzle = rotate(puzzle)
 
                 if table == puzzle:
-                    answer += count
+                    answer += getCount(puzzle)
                     puzzles.remove(puzzle_origin)
                     filled = True
                     break
+    # answer = 0
+    # visited = [0 for _ in range(len(table_pieces))]
+    # for g in game_pieces:
+    #     for idx, t in enumerate(table_pieces):
+    #         if visited[idx] == 0 and g in t:
+    #             answer += getCount(g)
+    #             visited[idx] = 1
+    #             break
+                    
 
     return answer
+
+print(solution([[1,1,0,0,1,0],[0,0,1,0,1,0],[0,1,1,0,0,1],[1,1,0,1,1,1],[1,0,0,0,1,0],[0,1,1,1,0,0]], [[1,0,0,1,1,0],[1,0,1,0,1,0],[0,1,1,0,1,1],[0,0,1,0,0,0],[1,1,0,1,1,0],[0,1,0,0,0,0]]))
