@@ -7,4 +7,4 @@ def solution(number, k):
             k -= 1
         answer.append(num)
         
-    return ''.join(answer[:len(answer) - k])
+    return ''.join(answer) if k == 0 else ''.join(answer)[:-k]
