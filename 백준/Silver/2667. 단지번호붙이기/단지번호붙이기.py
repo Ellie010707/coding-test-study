@@ -1,40 +1,33 @@
 from collections import deque
-
-n = int(input())
-maps = [[int(x) for x in input()] for _ in range(n)]
-
-# 상하좌우
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
-
-def bfs(x, y):
-    queue = deque()
-    queue.append((x,y))
-    maps[x][y] = 0
+dv = [(0,1), (0,-1), (1,0), (-1, 0)]
+def bfs(x, y, N):
+    queue = deque([(x, y)])
     count = 1
-
+    visited[x][y] = 1
+    
     while queue:
-        tmp_x, tmp_y = queue.popleft()
-        for i in range(4):
-            nx = tmp_x + dx[i]
-            ny = tmp_y + dy[i]
-            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+        x, y = queue.popleft()
+
+        for dx, dy in dv:
+            nx, ny = x + dx, y + dy
+            if nx < 0 or nx >= N or ny < 0 or ny >= N or visited[nx][ny] == 1 or maps[nx][ny] == "0":
                 continue
-            if maps[nx][ny] == 1:
-                maps[nx][ny] = 0
-                queue.append((nx, ny))
-                count += 1
+            visited[nx][ny] = 1
+            queue.append((nx, ny))
+            count += 1
     return count
 
-cnt = []
-for i in range(n):
-    for j in range(n):
-        if maps[i][j] == 1:
-            cnt.append(bfs(i, j))
+N = int(input())
+maps = [list(input()) for _ in range(N)]
+visited = [[0]*N for _ in range(N)]
 
-cnt.sort()
-print(len(cnt))
-for c in cnt:
-    print(c)
+answer = []
+for i in range(N):
+    for j in range(N):
+        if maps[i][j] == "1" and visited[i][j] == 0:
+            answer.append(bfs(i, j, N))
 
-              
+answer.sort()
+print(len(answer))
+for ans in answer:
+    print(ans)
