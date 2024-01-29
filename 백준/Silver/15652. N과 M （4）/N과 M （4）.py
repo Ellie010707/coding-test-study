@@ -1,15 +1,21 @@
+
 N, M = map(int, input().split())
 
-l = []
+visited = [0] * (N + 1)
 
-def dfs(n):
-    if len(l) == M:
-        print(" ".join(map(str, l)))
+def bt(nums, visited):
+    if len(nums) == M:
+        for num in nums: 
+            print(num, end=" ")
+        print()
         return
-    for i in range(1, N+1):
-        if i >= n:
-            l.append(i)
-            dfs(i)
-            l.pop()
-
-dfs(1)
+    
+    start = nums[-1] if nums else 1
+    visited[start] = 0
+    for idx in range(start, N + 1):
+        if visited[idx] == 0:
+            visited[idx] = 1
+            bt(nums+[idx], visited)
+            visited[idx] = 0
+            
+bt([], visited)
