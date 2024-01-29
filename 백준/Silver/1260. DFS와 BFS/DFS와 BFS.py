@@ -6,7 +6,6 @@ N, M, V = map(int, input().split())
 tmp = [[int(x) for x in input().split()] for _ in range(M)]
 
 def dfs(x):
-    global visited, datas
     visited[x] = 1
     print(x, end=" ")
 
@@ -19,7 +18,6 @@ def dfs(x):
     return
 
 def bfs(x):
-    global visited, datas
     queue = deque([x])
 
     while queue:
@@ -44,4 +42,3 @@ print()
 
 visited = [0] * (N + 1)
 bfs(V)
-print()
